@@ -43,6 +43,6 @@ production:
   reconnect: false
   database: zomgblog_production
   pool: 5
-  username: root
-  password: 
-  socket: /tmp/mysql.sock
+  username: zomgblog
+  password: zomgsosecretandsecure
+  socket: /var/run/mysqld/mysqld.sock
