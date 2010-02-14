@@ -13,26 +13,26 @@ dependencies:
     - :default
     version: ">= 0"
 specs: 
-- text-hyphen: 
-    version: 1.0.0
 - builder: 
     version: 2.1.2
+- text-hyphen: 
+    version: 1.0.0
 - i18n: 
     version: 0.3.3
 - bundler: 
-    version: 0.9.5
+    version: 0.9.6
 - arel: 
     version: 0.2.0
 - activemodel: 
     version: 3.0.0.beta
-- abstract: 
-    version: 1.0.0
-- erubis: 
-    version: 2.6.5
 - mime-types: 
     version: "1.16"
 - mail: 
     version: 2.1.2
+- abstract: 
+    version: 1.0.0
+- erubis: 
+    version: 2.6.5
 - thor: 
     version: 0.13.0
 - memcache-client: 
@@ -59,13 +59,13 @@ specs:
     version: 2.0.5
 - activerecord: 
     version: 3.0.0.beta
-- tzinfo: 
-    version: 0.3.16
-- activesupport: 
-    version: 3.0.0.beta
 - activeresource: 
     version: 3.0.0.beta
 - rails: 
+    version: 3.0.0.beta
+- tzinfo: 
+    version: 0.3.16
+- activesupport: 
     version: 3.0.0.beta
 hash: 29631d7d5699ecf44b4f4995637fa0f418c68f82
 sources: 
