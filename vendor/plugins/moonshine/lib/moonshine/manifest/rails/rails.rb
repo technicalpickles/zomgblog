@@ -122,9 +122,8 @@ module Moonshine::Manifest::Rails::Rails
       #end
 
       # this mkdir is a workaround for http://github.com/carlhuda/bundler/issues/issue/77
-      exec "mkdir #{rails_root.join('.bundle')}",
-        :before => exec("bundle install"),
-        :creates => file(rails_root.join('.bundle').to_s)
+      exec "mkdir -p #{rails_root.join('.bundle')}",
+        :before => exec("bundle install")
       exec "bundle install",
         :command => "bundle install",
         :cwd => rails_root.to_s,
