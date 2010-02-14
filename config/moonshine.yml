@@ -1,6 +1,6 @@
 :ruby: ree187
 :application: zomgblog
-:user: ubuntu
+:user: rails
 #:time_zone: UTC
 :deploy_to: /srv/zomgblog
 :domain: zomgblog.railsmachine.com
