@@ -3,7 +3,7 @@
 :user: ubuntu
 #:time_zone: UTC
 :deploy_to: /srv/zomgblog
-:domain: ec2-184-73-9-120.compute-1.amazonaws.com
+:domain: zomgblog.railsmachine.com
 #:domain_aliases:
 #  - assets1.zomgblog.technicalpickles.com
 #  - assets2.zomgblog.technicalpickles.com
