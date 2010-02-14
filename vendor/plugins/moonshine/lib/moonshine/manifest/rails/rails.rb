@@ -122,8 +122,9 @@ module Moonshine::Manifest::Rails::Rails
       #end
 
       # this mkdir is a workaround for http://github.com/carlhuda/bundler/issues/issue/77
-      exec "mkdir -p #{rails_root.join('.bundle')}",
-        :before => exec("bundle install")
+      exec "mkdir #{rails_root.join('.bundle')}",
+        :before => exec("bundle install"),
+        :creates => rails_root.join('.bundle').to_s
       exec "bundle install",
         :command => "bundle install",
         :cwd => rails_root.to_s,
@@ -133,7 +134,7 @@ module Moonshine::Manifest::Rails::Rails
       exec "bundle lock",
         :command => "bundle lock",
         :cwd => rails_root.to_s,
-        :creates => file(gemfile_lock_path.to_s)
+        :creates => gemfile_lock_path.to_s
     else
       return unless configuration[:gems]
       configuration[:gems].each do |gem|
