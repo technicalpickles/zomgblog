@@ -1,1 +1,1 @@
-server "zomgblog.railsmachine.com", :app, :web, :db, :primary => true
+server "zomgblog.managedmachine.com", :app, :web, :db, :primary => true

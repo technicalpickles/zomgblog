@@ -3,7 +3,7 @@
 :user: rails
 #:time_zone: UTC
 :deploy_to: /srv/zomgblog
-:domain: zomgblog.railsmachine.com
+:domain: zomgblog.managedmachine.com
 #:domain_aliases:
 #  - assets1.zomgblog.technicalpickles.com
 #  - assets2.zomgblog.technicalpickles.com
