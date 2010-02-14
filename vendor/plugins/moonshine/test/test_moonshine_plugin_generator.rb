@@ -1,45 +1,55 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require 'test_helper'
 class MoonshinePluginGeneratorTest < Test::Unit::TestCase
 
   def setup
-    FileUtils.mkdir_p(fake_rails_root)
-    @original_files = file_list
-    Rails::Generator::Scripts::Generate.new.run(["moonshine_plugin","iptables"], :destination => fake_rails_root)
-    @new_files = (file_list - @original_files)
+    FileUtils.mkdir_p(generator_rails_root)
+    Rails::Generator::Scripts::Generate.new.run(["moonshine_plugin","iptables"], :destination => generator_rails_root)
   end
 
   def teardown
-    FileUtils.rm_r(fake_rails_root)
+    FileUtils.rm_r(generator_rails_root)
   end
 
   def test_generates_correct_files
-    assert @new_files.include?(init_path)
-    assert @new_files.include?(module_path)
+    assert readme_path.exist?
+    assert init_path.exist?
+    assert module_path.exist?
+    assert spec_path.exist?
   end
 
   def test_generates_plugin_module
-    assert_match /module Iptables/, File.read(module_path)
+    assert_match /module Iptables/, module_path.read
   end
   
   def test_includes_plugin_module
-    assert_match /require ".*iptables\.rb"/,File.read(init_path)
-    assert_match /include Iptables/, File.read(init_path)
+    assert_match /require ".*iptables\.rb"/, init_path.read
+    assert_match /include Iptables/, init_path.read
   end
 
   private
 
+    def plugin_path
+      generator_rails_root + 'vendor/plugins/moonshine_iptables'
+    end
+
     def module_path
-      "#{fake_rails_root}/vendor/plugins/moonshine_iptables/lib/iptables.rb"
+      plugin_path + 'lib/iptables.rb'
     end
 
     def init_path
-      "#{fake_rails_root}/vendor/plugins/moonshine_iptables/moonshine/init.rb"
+      plugin_path + 'moonshine/init.rb'
     end
 
-    def file_list
-      Dir.glob(File.join(fake_rails_root, "vendor/plugins/moonshine_iptables/*")) + 
-      Dir.glob(File.join(fake_rails_root, "vendor/plugins/moonshine_iptables/moonshine/*")) + 
-      Dir.glob(File.join(fake_rails_root, "vendor/plugins/moonshine_iptables/lib/*"))
+    def readme_path
+      plugin_path + 'README.rdoc'
+    end
+
+    def spec_path
+      plugin_path + 'spec/iptables_spec.rb'
+    end
+
+    def spec_helper_path
+      plugin_path + 'spec/spec_helper.rb'
     end
 
 end

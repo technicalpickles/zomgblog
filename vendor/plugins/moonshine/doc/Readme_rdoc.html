@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>File: Readme.rdoc [RDoc Documentation]</title>
+
+	<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet" />
+
+	<script src="./js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+</head>
+
+<body class="file">
+	<div id="metadata">
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="./Readme_rdoc.html">Readme.rdoc</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="./images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1>Moonshine</h1>
+<p>
+Moonshine is Rails deployment and configuration management done right.
+</p>
+<h3>Deploying Your Rails Application with Moonshine in 15 minutes</h3>
+<h4>Requirements</h4>
+<ul>
+<li>A server running Ubuntu 8.10 (Want to see your favorite platform supported?
+Fork Moonshine on GitHub!)
+
+</li>
+<li>A user on this server that can:
+
+<ul>
+<li>Execute commands via sudo
+
+</li>
+<li>Access your application&#8217;s Git repository
+
+</li>
+</ul>
+</li>
+</ul>
+<h4>Instructions</h4>
+<ul>
+<li>Install the plugin: <tt>ruby script/plugin install
+git://github.com/railsmachine/moonshine.git</tt>
+
+</li>
+<li>Ensure all required gems are declared using <tt>config.gem</tt> calls in
+<tt>config/environment.rb</tt>.
+
+</li>
+<li>Review generator options: <tt>ruby script/generate moonshine --help</tt>
+
+</li>
+<li>Run the generator: <tt>ruby script/generate moonshine</tt>
+
+</li>
+<li>Review and edit <tt>config/moonshine.yml</tt> to reflect your
+application&#8217;s details. For example, if you&#8217;re using a user
+other than <tt>rails</tt>, include a line like <tt>:user:
+myawesomeuser</tt>
+
+</li>
+<li>Review and edit <tt>app/manifests/application_manifest.rb</tt> to declare
+other packages, services, or files your application depends on (memcached,
+sphinx, etc).
+
+</li>
+<li>Review and edit your <tt>config/deploy.rb</tt> as necessary. In particular,
+you must make sure the correct <tt>server</tt> is defined.
+
+</li>
+<li>Commit it to git: <tt>git add . &amp;&amp; git commit -am &quot;added
+moonshine&quot; &amp;&amp; git push</tt>
+
+</li>
+<li>Run <tt>cap deploy:setup</tt>
+
+<ul>
+<li>This will bootstrap your Ubuntu server with Ruby Enterprise Edition and
+shadow_puppet.
+
+</li>
+</ul>
+</li>
+<li>Run <tt>cap deploy</tt>
+
+<ul>
+<li>This will install all needed dependencies for your application and deploy
+it for the first time. The initial deploy will take awhile, as things such
+as MySQL, etc, are being installed. It&#8217;s worth the wait though,
+because what you end up with is an extremely maintainable server that
+you&#8217;ll never need to SSH into again!
+
+</li>
+</ul>
+</li>
+</ul>
+<h2>Moonshine and Capistrano</h2>
+<p>
+Moonshine tightly integrates with Capistrano, utilizing its callback system
+to apply your manifests to the server on each deploy. In addition,
+variables are set in Capistrano for all keys on the
+<tt>config/moonshine.yml</tt> hash, allowing your Capistrano configuration
+to be extremly barebones.
+</p>
+<p>
+By default, Capistrano applies the manifest at
+<tt>app/manifests/application_manifest.rb</tt>. To run a different
+manifest, for example one to install and maintain packages on a server of a
+different role:
+</p>
+<pre>
+    set :moonshine_manifest, 'memcached_manifest'
+</pre>
+<p>
+If you&#8217;d like to prevent Capistrano from applying your Moonshine
+manifests for any reason:
+</p>
+<pre>
+    set :moonshine_apply, false
+</pre>
+<h3>Shared Config</h3>
+<p>
+Often, certain files (<tt>config/database.yml</tt>, etc) are excluded from
+an application&#8217;s SCM, but required to be present for deploy.
+We&#8217;ve abstracted this pattern with some Capistrano automation that
+goes great with Moonshine.
+</p>
+<p>
+For example, if you keep <tt>config/database.yml</tt> out of your SCM, add
+the following line to your <tt>config/moonshine.yml</tt>:
+</p>
+<pre>
+    :shared_config:
+      - config/database.yml
+</pre>
+<p>
+This file will then be automatically uploaded when you run
+<tt>deploy:setup</tt> and symlinked to <tt>current/config/database.yml</tt>
+on each deploy.
+</p>
+<p>
+There are some extra cap tasks for working with these files manually, if
+needed:
+</p>
+<ul>
+<li>cap shared_config:upload
+
+</li>
+<li>cap shared_config:download
+
+</li>
+<li>cap shared_config:symlink
+
+</li>
+</ul>
+<p>
+The old <tt>local_config</tt> functionality is still supported, but
+<tt>shared_config</tt> is recommended.
+</p>
+<h2>Managing gem dependencies</h2>
+<p>
+Moonshine can handle installing your gem dependencies, as well as
+automatically installing any system dependencies for them. All you need to
+do is:
+</p>
+<ul>
+<li>Specify them in <tt>config/environment.rb</tt>
+
+</li>
+<li>Run <tt>rake moonshine:gems</tt> to regenerate <tt>config/gems.yml</tt> and
+commit and push the
+
+</li>
+<li>Deploy
+
+</li>
+</ul>
+<p>
+For example, if you specify nokogiri as a dependency, both the nokogiri gem
+and the libxml dependency will be installed.
+</p>
+<h3>Gem bundler</h3>
+<p>
+If you have a Gemfile in your app, then <tt>bundle install</tt> is run for
+you automatically during deploy.
+</p>
+<p>
+Unfortunately, the current implementation does not handle non-gem
+dependencies for you (patches + suggestions welcome).
+</p>
+<h2>Rails 3</h2>
+<p>
+Moonshine does indeed work with Rails 3. There a few points worth
+mentioning:
+</p>
+<ul>
+<li>The generator call would be <tt>rails generate moonshine</tt> instead of
+<tt>ruby script/generate moonshine</tt>
+
+</li>
+<li>Gem bundler is required by Rails 3, so moonshine&#8217;s gem bundler
+support will be used
+
+</li>
+<li>Rails 3 requires ruby 1.8.7, so Ruby Enterprise Edition 1.8.7 is setup by
+default
+
+</li>
+<li>Rails 3 is Rack based, so Passenger&#8217;s Rack support is used. Passenger
+does not support it&#8217;s smart spawn mode for rack applications yet
+though. Contrary to some reports, removing <tt>config.ru</tt> will not
+allow Passenger&#8217;s Rails support to be used instead of its Rack
+support, because your application won&#8217;t be bootable.
+
+</li>
+</ul>
+<p>
+If you are upgrading an application to Rails 3, and it is already deployed
+using moonshine, there are a couple manual things you will need to do:
+</p>
+<pre>
+ * Edit &lt;tt&gt;config/moonshine.yml&lt;/tt&gt; to use ree187, ie &lt;tt&gt;:ruby: ree187&lt;/tt&gt;
+ * Run &lt;tt&gt;cap ruby:upgrade&lt;/tt&gt;
+</pre>
+<p>
+At this point, you should be able to do your usual <tt>cap deploy</tt>
+</p>
+<h2>Running Tests</h2>
+<p>
+To run the test suite, follow these steps to create a testbed app:
+</p>
+<pre>
+    rails moonshine_tests
+    cd moonshine_tests
+    git clone git://github.com/railsmachine/moonshine.git /vendor/plugins/moonshine
+    script/generate moonshine
+    cd vendor/plugins/moonshine
+    rake test
+</pre>
+<h2>Getting Help</h2>
+<p>
+You can find more examples in the <a
+href="http://railsmachine.github.com/moonshine">documentation</a> and on
+the <a href="http://wiki.github.com/railsmachine/moonshine">Wiki</a>.
+</p>
+<p>
+For help or general discussion, visit the Moonshine <a
+href="http://groups.google.com/group/railsmachine-moonshine">newsgroup</a>.
+</p>
+
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+</body>
+</html>
+
